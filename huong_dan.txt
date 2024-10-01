@@ -1,0 +1,25 @@
+1. Đảm bảo đã cài nodejs
+Cài nodejs: https://nodejs.org/en
+
+2. Down source về chạy lệnh: npm install
+3. Chạy project
+
+    Cách lấy data:
+    1. Mở game lên -> Chuột phải vào game -> chọn Kiểm tra (với ai cài tiếng việt), inspect (Với ai cài tiếng anh)
+    2. Vào tab console của devtool gõ dòng lệnh copy(Telegram.WebApp.initData) nếu nó hiện undefined thì đã copy vào bộ nhớ tạm (ctrl + V sẽ thấy). nếu lỗi đỏ thì chuột phải lại vào iframe của game như bước trên lại
+
+ - Nếu chạy 1 acc không dùng proxy:
+ + Tạo file query.txt
+ + Ctrl + V dán cái vừa copy từ bộ nhớ tạm vào file query.txt
+ + Vào file gumart-no-proxy tìm 5514282941 sửa lại ID ref của người khác. nếu ủng hộ tui thì khỏi phải sửa
+ + tìm timeCountDown sửa lại thời gian chờ theo ý muốn. default là 120p
+ + Sau đó chạy lệnh: node gumart-no-proxy
+
+ - Nếu chạy nhiều acc:
+ + Tạo file proxy.txt và gán proxy theo định dạng http://username:password@ip:port mỗi proxy 1 dòng tương ứng với mỗi acc
+ + Tạo file query.txt và gán data 1 dòng tương ứng với mỗi acc (data có dạng: query_id= hoặc user=). 
+ + Vào file gumart-proxy tìm 5514282941 sửa lại ID ref của người khác. nếu ủng hộ tui thì khỏi phải sửa
+ + tìm timeCountDown sửa lại thời gian chờ theo ý muốn. default là 120p
+ + Sau đó chạy lệnh: node gumart-proxy
+
+ Chúc ae thành công.
