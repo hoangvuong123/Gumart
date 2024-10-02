@@ -221,9 +221,6 @@ const run = async () => {
             process.stdout.write(`\rBắt đầu vòng lặp sau ${i} giây...`);
             await sleep(1000);
         }
-        console.log();
-
-        this.clearConsole();
     }
 }
 
