@@ -84,6 +84,23 @@ const processQuery = async (query_id, isTodoTask) => {
         }
     };
 
+    const useBoost = async (authorization) => {
+        const claimConfig = {
+            method: 'post',
+            url: 'https://api.gumart.click/api/boost',
+            headers: { ...config.headers, authorization },
+            httpsAgent: agent
+        };
+
+        try {
+            const resClaim = await axios(claimConfig);
+            console.log('Sử dụng boost thành công!');
+        } catch (error) {
+            console.error('Không thể sử dụng boost hoặc chưa đến giờ');
+        }
+    };
+
+
     const getTask = async (authorization) => {
         const getTaskConfig = {
             method: 'get',
@@ -143,6 +160,11 @@ const processQuery = async (query_id, isTodoTask) => {
             await todoTask(missions)
             console.log("====> Bắt đầu làm task tab Task <====");
             await todoTask(tasks)
+
+            const currentTime = Math.floor(Date.now() / 1000);
+            if(currentTime > boost_next_timestamp){
+                await useBoost(authorization);
+            }
             
             console.log("=====> Đã hoàn thành task :D");
 
@@ -150,6 +172,7 @@ const processQuery = async (query_id, isTodoTask) => {
             console.error('Làm task lỗi rôì.');
         }
     };
+    
 
     try {
         const response = await axios(config);
@@ -171,6 +194,11 @@ const processQuery = async (query_id, isTodoTask) => {
             await claimMint(authorization)
         }else{
             console.log("Earned amount <= 1000. Chỉ claim khi amount > 1000");
+        }
+
+        const currentTime = Math.floor(Date.now() / 1000);
+        if(currentTime > boost_next_timestamp){
+            await useBoost(authorization);
         }
 
         if(isTodoTask){

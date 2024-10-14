@@ -6,12 +6,12 @@ const async = require('async');
 const readline = require('readline');
 
 const queryPath = path.join(__dirname, 'query.txt');
-const proxyFilePath = path.join(__dirname, 'proxy.txt');
+const proxyFilePath = path.join(__dirname, '../proxy.txt');
 const proxyData = fs.readFileSync(proxyFilePath, 'utf8').trim().split('\n');
 const queryData = fs.readFileSync(queryPath, 'utf8').trim().split('\n');
 
-// 120 phut
-const timeCountDown = 120
+// 125 phut
+const timeCountDown = 125
 
 const checkProxyIP = async (proxy) => {
     try {
@@ -109,6 +109,22 @@ const processQuery = async (query_id, proxy, isTodoTask) => {
         }
     };
 
+    const useBoost = async (authorization) => {
+        const claimConfig = {
+            method: 'post',
+            url: 'https://api.gumart.click/api/boost',
+            headers: { ...config.headers, authorization },
+            httpsAgent: agent
+        };
+
+        try {
+            const resClaim = await axios(claimConfig);
+            console.log('Sử dụng boost thành công!');
+        } catch (error) {
+            console.error('Không thể sử dụng boost hoặc chưa đến giờ');
+        }
+    };
+
     const getTask = async (authorization) => {
         const getTaskConfig = {
             method: 'get',
@@ -185,7 +201,8 @@ const processQuery = async (query_id, proxy, isTodoTask) => {
         const { access_token, type_token, user } = data;
         const authorization = type_token + " " + access_token;
         const homeData = await home(authorization);
-        const { balance_text, friend_boost, earned_amount, mint_speed, vip_boost, premium_boost } = homeData.data.data
+        const { balance_text, friend_boost, earned_amount, mint_speed, vip_boost, premium_boost,boost_next_timestamp } = homeData.data.data
+        
 
         console.log(`====================Username: ${user.username}====================`);
         console.log('[ Total gum ]:', balance_text);
@@ -194,11 +211,16 @@ const processQuery = async (query_id, proxy, isTodoTask) => {
         console.log('[ Premium Boost ]:', premium_boost);
         console.log('[ Earned Amount ]:', earned_amount);
         console.log('[ Mint Speed ]:', mint_speed);
-
+        
         if (earned_amount > 1000) {
             await claimMint(authorization)
         }else{
             console.log("Earned amount <= 1000. Chỉ claim khi amount > 1000");
+        }
+
+        const currentTime = Math.floor(Date.now() / 1000);
+        if(currentTime > boost_next_timestamp){
+            await useBoost(authorization);
         }
 
         if(isTodoTask){
