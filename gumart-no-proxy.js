@@ -180,7 +180,7 @@ const processQuery = async (query_id, isTodoTask) => {
         const { access_token, type_token, user } = data;
         const authorization = type_token + " " + access_token;
         const homeData = await home(authorization);
-        const { balance_text, friend_boost, earned_amount, mint_speed, vip_boost, premium_boost } = homeData.data.data
+        const { balance_text, friend_boost, earned_amount, mint_speed, vip_boost, premium_boost,boost_next_timestamp } = homeData.data.data
 
         console.log(`====================Username: ${user.username}====================`);
         console.log('[ Total gum ]:', balance_text);
