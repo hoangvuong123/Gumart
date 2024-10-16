@@ -6,7 +6,7 @@ const async = require('async');
 const readline = require('readline');
 
 const queryPath = path.join(__dirname, 'query.txt');
-const proxyFilePath = path.join(__dirname, '../proxy.txt');
+const proxyFilePath = path.join(__dirname, 'proxy.txt');
 const proxyData = fs.readFileSync(proxyFilePath, 'utf8').trim().split('\n');
 const queryData = fs.readFileSync(queryPath, 'utf8').trim().split('\n');
 
