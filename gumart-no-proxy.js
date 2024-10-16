@@ -89,7 +89,6 @@ const processQuery = async (query_id, isTodoTask) => {
             method: 'post',
             url: 'https://api.gumart.click/api/boost',
             headers: { ...config.headers, authorization },
-            httpsAgent: agent
         };
 
         try {
