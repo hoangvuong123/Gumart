@@ -187,7 +187,6 @@ const processQuery = async (query_id, proxy, isTodoTask) => {
             await todoTask(missions)
             console.log("====> Bắt đầu làm task tab Task <====");
             await todoTask(tasks)
-
             console.log("=====> Đã hoàn thành task :D");
 
         } catch (error) {
@@ -221,6 +220,8 @@ const processQuery = async (query_id, proxy, isTodoTask) => {
         const currentTime = Math.floor(Date.now() / 1000);
         if(currentTime > boost_next_timestamp){
             await useBoost(authorization);
+        }else{
+            console.log("Boost đang được sử dụng!");
         }
 
         if(isTodoTask){
